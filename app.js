@@ -1,27 +1,32 @@
 const temparatureField = document.querySelector('.temp');
 const locationField = document.querySelector('.timeLocation');
-const locationDate = document.querySelector('.dateTime')
-const weatherField = document.querySelector('.condition p')
+const locationDate = document.querySelector('.dateTime');
+const weatherField = document.querySelector('.condition p');
 const searchField = document.querySelector('.searchArea');
-const form = document.querySelector('form')
+const conImage = document.querySelector('.conditionImage');
+const form = document.querySelector('form');
+
+
 
 form.addEventListener('submit', searchForLocation)
 
 let target = 'nigeria'
 
 const fetchResults = async (targetLocation) => {
-    let url = `http://api.weatherapi.com/v1/current.json?key=75d8166a32d24d29bad101148231403&q=${targetLocation}&aqi=no`
+    let url = `https://api.weatherapi.com/v1/current.json?key=75d8166a32d24d29bad101148231403&q=${targetLocation}&aqi=no`
     const resp = await fetch(url)
     const data = await resp.json()
     console.log(data);
 
+    conImage.innerHTML = `<img scr="${data.current.condition.icon}`
 
+    let image = conImage.innerHTML
     let locationName = data.location.name;
     let time = data.location.localtime;
     let temp = data.current.temp_c;
     let temp2 = data.current.temp_f;
     let condition = data.current.condition.text;
-    updateDetails(temp, temp2, locationName, time, condition)
+    updateDetails(temp, temp2, locationName, time, condition, image)
 
     // console.log(locationName);
     // console.log(time);
@@ -41,6 +46,8 @@ function updateDetails(temp, temp2, locationName, time, condition) {
     locationField.innerText = locationName
     locationDate.innerText = `${splitDate} ${currentDay} ${splitTime}`
     weatherField.innerText = condition
+    // showIcon.innerText = icon
+
 
 }
 
